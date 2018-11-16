@@ -35,10 +35,7 @@ public class Cliente implements Runnable {
 
         this.mesa.drop();
 
-  
-        
-        
-        
+
         this.hamburguesa = false;
 
         System.out.println("hamburguesa comida");
