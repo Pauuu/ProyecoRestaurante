@@ -34,20 +34,11 @@ public class Cliente implements Runnable {
         }
 
         this.mesa.drop();
-//        while (!hamburguesa) {            
-//            try {
-//                wait();
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//        
-//        try {
-//            Thread.sleep(900);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-//        }
 
+  
+        
+        
+        
         this.hamburguesa = false;
 
         System.out.println("hamburguesa comida");
