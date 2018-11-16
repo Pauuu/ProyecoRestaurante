@@ -6,20 +6,22 @@
 package proyectorestaurante;
 
 import java.awt.Canvas;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class Viewer extends Canvas implements Runnable{
+public class Viewer extends Canvas implements Runnable {
 
-    Restaurante restaurante;
     Fondo fondo;
     FrameActual frameActual;
+    Restaurante restaurante;
 
     public Viewer(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
 
     public void addFodno() {
-
     }
+
 
     public void updateFrameActual() {
 
@@ -31,6 +33,8 @@ public class Viewer extends Canvas implements Runnable{
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
+
+    //Privados
 }

@@ -5,21 +5,64 @@
  */
 package proyectorestaurante;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author pau
  */
-public class Cocinero implements Runnable{
-    
+public class Cocinero implements Runnable {
+
+    boolean pedido = true;
+    Mesa mesa;
     Restaurante restaurante;
-    
-    public Cocinero(Restaurante restaurante){
+
+    public Cocinero(Restaurante restaurante) {
         this.restaurante = restaurante;
+    }
+
+    /**
+     * 
+     */
+    public synchronized void cocinarHamburguesa() {
+        
+        
+        
+        this.mesa.put();
+
+//        while (!this.pedido) {
+//            try {
+//                wait();
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//
+//        try {
+//            Thread.sleep(1200);
+//        } catch (InterruptedException ex) {
+//            System.out.println("Deberia poner algun tipo de manejador de excepciones");
+//        }
+
+        this.pedido = false;
+
+        System.out.println("Hamburguesa cocinada");
+        
+        //notifyAll();
+    }
+
+    public void setPedidio() {
+        this.pedido = true;
+    }
+    
+    public void setMesa(Mesa m){
+        this.mesa = m;
     }
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.cocinarHamburguesa();
     }
-    
+
 }

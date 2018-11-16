@@ -5,21 +5,62 @@
  */
 package proyectorestaurante;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author pau
  */
-public class Cliente implements Runnable{
+public class Cliente implements Runnable {
+
+    boolean hamburguesa = false;
+    Mesa mesa;
     Restaurante restaurante;
     int id; //?
-    
-    
-    public Cliente(Restaurante restaurante){
+
+    public Cliente(Restaurante restaurante) {
         this.restaurante = restaurante;
+    }
+
+    public synchronized void comer() {
+
+        while (this.mesa.numHamburguesas <= 0) {
+            try {
+                wait();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        this.mesa.drop();
+//        while (!hamburguesa) {            
+//            try {
+//                wait();
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//        
+//        try {
+//            Thread.sleep(900);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
+        this.hamburguesa = false;
+
+        System.out.println("hamburguesa comida");
+
+        //notifyAll();
+    }
+
+    public void setMesa(Mesa m) {
+        this.mesa = m;
     }
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.comer();
     }
 }
