@@ -49,10 +49,10 @@ public class Viewer extends Canvas implements Runnable {
         Graphics g = this.frameActual.getGraphics();
         cl.pintar(g, 500, 600);
     }
-
+   
     public void loadImageFondo() {
         Graphics g = this.getGraphics();
-        //this.fondo.pintar(g, 0, 0);
+        //this.fondo.pintar(g, 0, 0);   
         g.drawImage(this.fondo, 0, 0, null);
     }
 
