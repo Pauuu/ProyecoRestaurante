@@ -5,8 +5,13 @@
  */
 package proyectorestaurante;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -14,55 +19,72 @@ import java.util.logging.Logger;
  */
 public class Cocinero implements Runnable {
 
-    boolean pedido = true;
-    Mesa mesa;
-    Restaurante restaurante;
+    private boolean pedido = true;
+    private BufferedImage imagen;
+    private Mesa mesa;
+    private Restaurante restaurante;
+    private int tiempoCocina;
+    private int id;
 
-    public Cocinero(Restaurante restaurante) {
+    public Cocinero(Restaurante restaurante, int tiempoCocina, int id) {
         this.restaurante = restaurante;
+        this.tiempoCocina = tiempoCocina;
+        this.id = id;
+        try {
+            this.imagen = (ImageIO.read(new File("imgs/ham.png")));
+        } catch (IOException ex) {
+            Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    /**
-     * 
-     */
-    public synchronized void cocinarHamburguesa() {
-        
-        
-        
-        this.mesa.put();
-
-//        while (!this.pedido) {
-//            try {
-//                wait();
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//
-//        try {
-//            Thread.sleep(1200);
-//        } catch (InterruptedException ex) {
-//            System.out.println("Deberia poner algun tipo de manejador de excepciones");
-//        }
+    public void cocinarHamburguesa() { //poner synhronized??
 
         this.pedido = false;
 
+        this.mesa.put();
         System.out.println("Hamburguesa cocinada");
-        
-        //notifyAll();
+
+    }
+
+    public BufferedImage getImage() {
+        return this.imagen;
     }
 
     public void setPedidio() {
         this.pedido = true;
     }
-    
-    public void setMesa(Mesa m){
+
+    public void setMesa(Mesa m) {
         this.mesa = m;
+    }
+
+    public void pintar(Graphics g, int posX, int posY) {
+        g.drawImage(this.imagen, posX, posY, null);
     }
 
     @Override
     public void run() {
-        this.cocinarHamburguesa();
+        while (true) {
+
+            this.cocinarHamburguesa();
+
+            this.servirHamburguesa();
+
+            try {
+                Thread.sleep(700);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    private void servirHamburguesa() {
+
+        int oX; //pos x de la mesa
+        int oY; //pos y de la mesa
+
+        // this.mesa.get
     }
 
 }

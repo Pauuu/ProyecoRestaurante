@@ -6,23 +6,15 @@
 package proyectorestaurante;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 /**
  *
  * @author pau
  */
-public class FrameActual extends BufferedImage{
+public class Pintable {
     
-    Viewer viewer;
+    public void pinar(Graphics g){}
     
-    public FrameActual(Viewer viewer) {
-        super(700, 700, TYPE_4BYTE_ABGR);
-        this.viewer = viewer;
-    }
-    
-    public void updateFrame(){
-    
-    }
+   
     
 }

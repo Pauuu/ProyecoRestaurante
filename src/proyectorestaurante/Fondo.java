@@ -5,19 +5,26 @@
  */
 package proyectorestaurante;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
  *
  * @author pau
  */
-public class Fondo extends BufferedImage{
-    
-    Viewer viewer;
-    
-    public Fondo(Viewer viewer, int width, int height, int imageType) {
-        super(width, height, imageType);
+public class Fondo extends BufferedImage {
+
+    private BufferedImage imagen;
+    private Viewer viewer;
+
+    public Fondo(Viewer viewer, BufferedImage img) {
+        super(img.getColorModel(), img.getRaster(), img.getColorModel().isAlphaPremultiplied(), null);
+        this.imagen = img;
         this.viewer = viewer;
+
     }
-    
+
+    public void pintar(Graphics g, int posX, int posY) {
+        g.drawImage(this.imagen, posX, posY, null);
+    }
 }
