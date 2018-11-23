@@ -32,22 +32,31 @@ public class Restaurante extends JFrame {
 
     private int totalHamburguesas;
 
-    final int FRAME_HEIGHT = 750;
+    final int FRAME_HEIGHT = 850;
     final int FRAME_WIDTH = 1000;
 
     private Viewer viewer;
 
     public Restaurante() {
-        this.createFrame();
 
+        this.createFrame();
         this.addViewer();
 
         this.openRestaurante();
 
-        //this.viewer.addObjFondo();
-        this.viewer.addObjFrameActual();
-        
-        
+        (new Thread(this.viewer)).start();
+    }
+
+    public ArrayList<Cocinero> getCocineros() {
+        return cocineros;
+    }
+
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public ArrayList<Mesa> getMesas() {
+        return mesas;
     }
 
     public Cocinero getCocinero(int id) {
@@ -62,13 +71,8 @@ public class Restaurante extends JFrame {
         return this.mesas.get(id);
     }
 
-    public Viewer getViewer() {
-        return this.viewer;
-    }
-
     public int getNumHamburguesas(int id) {
         return this.mesas.get(id).getNumHamburguesas();
-
     }
 
     public void createFrame() {
@@ -81,29 +85,27 @@ public class Restaurante extends JFrame {
         this.setVisible(true);
     }
 
-    private void openRestaurante() {
-        //cada cocinero deberia tener su propio hilo de ejecucion
-        //Añadir mesas, cocineros y clientes
-        this.addMesa();
-        this.addCliente();
-        this.addCocinero();
+    public Viewer getViewer() {
+        return this.viewer;
     }
+    
+    //privados
 
     private void addCocinero() {
-        this.cocineros.add(new Cocinero(this, 2000, 1));
+        this.cocineros.add(new Cocinero(this, 2000));
 
-        this.cocineros.get(0).setMesa(this.mesas.get(0));
-        (new Thread(this.cocineros.get(0))).start(); //cambiar
+        this.getCocinero(0).setMesa(this.getMesa(0));
+        (new Thread(getCocinero(0))).start(); //cambiar
     }
 
     private void addCliente() {
-        this.clientes.add(new Cliente(this));
-        this.clientes.get(0).setMesa(this.mesas.get(0));
-        (new Thread(this.clientes.get(0))).start();
+        this.clientes.add(new Cliente(this, 4000));
+        this.getCliente(0).setMesa(this.getMesa(0));
+        (new Thread(this.getCliente(0))).start();
 
-        this.clientes.add(new Cliente(this));
-        this.clientes.get(1).setMesa(this.mesas.get(0));
-        (new Thread(this.clientes.get(1))).start();
+        this.clientes.add(new Cliente(this, 500000));
+        this.getCliente(1).setMesa(this.getMesa(0));
+        (new Thread(getCliente(1))).start();
     }
 
     private void addMesa() {
@@ -116,16 +118,22 @@ public class Restaurante extends JFrame {
 
     private void addViewer() {
 
-        GridBagConstraints c = new GridBagConstraints();
-
         this.viewer = new Viewer(this);
         this.viewer.setSize(800, 800);
         this.viewer.setBackground(Color.blue);
 
-        c.gridx = 0;
-        c.gridy = 0;
-        this.cp.add(this.viewer, c);
+//        c.gridx = 0;
+//        c.gridy = 0;
+        this.cp.add(this.viewer);
         //this.viewer.addObjFondo();
+    }
+
+    private void openRestaurante() {
+        //cada cocinero deberia tener su propio hilo de ejecucion
+        //Añadir mesas, cocineros y clientes
+        this.addMesa();
+        this.addCliente();
+        this.addCocinero();
     }
 
 }

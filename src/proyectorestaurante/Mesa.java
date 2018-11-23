@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -19,16 +20,19 @@ import javax.imageio.ImageIO;
  */
 public class Mesa {
 
+    private ArrayList<BufferedImage> dibujoHamburguesas = new ArrayList<>();
     private BufferedImage imagen;
+    private Graphics manejadorGrafFrameActual;
     private Restaurante restaurante;
     private int numHamburguesas = 0;
-    private int posX = 0;
-    private int posY = 0;
+    private int posX = 300;
+    private int posY = 300;
 
     public Mesa(Restaurante restaurante) {
         this.restaurante = restaurante;
-         try {
-            this.imagen = (ImageIO.read(new File("imgs/mesa.jpeg")));
+        
+        try {
+            this.imagen = (ImageIO.read(new File("imgs/mesa.png")));
         } catch (IOException ex) {
             Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -36,22 +40,22 @@ public class Mesa {
 
     public synchronized void put() {
 
-        while (numHamburguesas > 3) {
+        while (this.numHamburguesas > 3) {
             try {
                 wait();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        numHamburguesas++;
+        
+        this.numHamburguesas++;
 
         notifyAll();
     }
 
     public synchronized void drop() {
 
-        while (numHamburguesas <= 0) {
+        while (this.numHamburguesas <= 0) {
             try {
                 wait();
             } catch (InterruptedException ex) {
@@ -64,6 +68,17 @@ public class Mesa {
         notifyAll();
 
     }
+    
+    public void pintarHam(Graphics g){
+        try {
+            this.dibujoHamburguesas.add(ImageIO.read(new File("imgs/ham.png")));
+        } catch (IOException ex) {
+            Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        g.drawImage(this.imagen, posX, posY + 100, null);
+    
+    }
 
     public void addHamburguesa() {
         this.numHamburguesas++;
@@ -73,15 +88,15 @@ public class Mesa {
         return numHamburguesas;
     }
     
-    public int getPosX(){
+    public int getPosX() {
         return this.posX;
     }
-    
-    public int getPosY(){
+
+    public int getPosY() {
         return this.posY;
     }
-    
-    public void pintar(Graphics g, int posX, int posY){
+
+    public void pintar(Graphics g) {
         g.drawImage(this.imagen, posX, posY, null);
     }
 

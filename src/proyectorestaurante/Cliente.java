@@ -19,26 +19,39 @@ import javax.imageio.ImageIO;
  */
 public class Cliente implements Runnable {
 
-    //boolean hamburguesa = false;
-    private BufferedImage imagen;
+    private BufferedImage imagen[] = new BufferedImage[3];
     private Mesa mesa;
     private Restaurante restaurante;
+    private int paciencia;
+    private int posX = 500;
+    private int posY = 500;
+    private int tiempoComida;
     private int id; //?
 
-    public Cliente(Restaurante restaurante) {
+    public Cliente(Restaurante restaurante, int tiempoComida) {
         this.restaurante = restaurante;
+        this.tiempoComida = tiempoComida;
         try {
-            this.imagen = (ImageIO.read(new File("imgs/mesa.jpeg")));
+            this.imagen[0] = (ImageIO.read(new File("imgs/cliente-normal.png")));
+            this.imagen[1] = (ImageIO.read(new File("imgs/cliente-enfadado.png")));
         } catch (IOException ex) {
             Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public void checkEstadoAnimo() {
+
+    }
+
     public void comer() {
-
+        try {
+            Thread.sleep(this.tiempoComida);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.mesa.drop();
-        System.out.println("Hamburguesa comida");
 
+        System.out.println("Hamburguesa comida");
     }
 
     public void setMesa(Mesa m) {
@@ -48,26 +61,18 @@ public class Cliente implements Runnable {
     @Override
     public void run() {
         while (true) {
-            
-            //this.buscarComida();
 
             this.comer();
 
-            try {
-                Thread.sleep(700);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
-    
-    public void pintar(Graphics g, int posX, int posY){
-        g.drawImage(this.imagen, posX, posY, null);   
+
+    public void pintar(Graphics g) {
+        g.drawImage(this.imagen[0], posX, posY, null);
     }
 
     private void buscarComida() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }

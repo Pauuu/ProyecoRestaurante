@@ -19,64 +19,69 @@ import javax.imageio.ImageIO;
  */
 public class Cocinero implements Runnable {
 
-    private boolean pedido = true;
-    private BufferedImage imagen;
+    private BufferedImage imagenCocinero;
+    private BufferedImage imagenHamburguesa;
+    private Graphics manejadorGrafico;
     private Mesa mesa;
     private Restaurante restaurante;
+    private int posX = 300;
+    private int posY = 200;
     private int tiempoCocina;
-    private int id;
 
-    public Cocinero(Restaurante restaurante, int tiempoCocina, int id) {
+    public Cocinero(Restaurante restaurante, int tiempoCocina) {
         this.restaurante = restaurante;
         this.tiempoCocina = tiempoCocina;
-        this.id = id;
-        try {
-            this.imagen = (ImageIO.read(new File("imgs/ham.png")));
-        } catch (IOException ex) {
-            Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void cocinarHamburguesa() { //poner synhronized??
-
-        this.pedido = false;
-
-        this.mesa.put();
-        System.out.println("Hamburguesa cocinada");
-
+        this.cargarImagenes();
     }
 
     public BufferedImage getImage() {
-        return this.imagen;
+        return this.imagenCocinero;
     }
 
-    public void setPedidio() {
-        this.pedido = true;
+    public void cocinarHamburguesa() {
+//        Graphics g = this.restaurante.getViewer().getFrameActual().getGraphics();
+        this.mesa.put();
+        System.out.println("Hamburguesa cocinada");
+    }
+
+    public void pintar(Graphics g) {
+        //this.manejadorGrafico = g;
+        g.drawImage(this.imagenCocinero, posX, posY, null);
     }
 
     public void setMesa(Mesa m) {
         this.mesa = m;
     }
 
-    public void pintar(Graphics g, int posX, int posY) {
-        g.drawImage(this.imagen, posX, posY, null);
-    }
-
     @Override
     public void run() {
         while (true) {
-
-            this.cocinarHamburguesa();
-
-            this.servirHamburguesa();
-
             try {
-                Thread.sleep(700);
+                Thread.sleep(this.tiempoCocina);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            this.cocinarHamburguesa();
+            //this.servirHamburguesa();
+        }
+    }
+
+    private void cargarImagenes() {
+        //cargar imagen 1
+        try {
+            this.imagenCocinero = (ImageIO.read(new File("imgs/cocinero.png")));
+
+        } catch (IOException ex) {
+            Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        //cargar imagen 2
+        try {
+            this.imagenHamburguesa = (ImageIO.read(new File("imgs/ham.png")));
+        } catch (IOException ex) {
+            Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void servirHamburguesa() {

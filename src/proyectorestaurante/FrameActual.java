@@ -21,8 +21,7 @@ public class FrameActual extends BufferedImage{
         this.viewer = viewer;
     }
     
-    public void updateFrame(){
-    
+    public void updateFrame(){    
     }
     
 }
