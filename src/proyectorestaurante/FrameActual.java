@@ -20,8 +20,4 @@ public class FrameActual extends BufferedImage{
         super(700, 700, TYPE_4BYTE_ABGR);
         this.viewer = viewer;
     }
-    
-    public void updateFrame(){    
-    }
-    
 }

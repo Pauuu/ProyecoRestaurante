@@ -28,8 +28,9 @@ public class Mesa {
     private int posX = 300;
     private int posY = 300;
 
-    public Mesa(Restaurante restaurante) {
+    public Mesa(Restaurante restaurante, Graphics graphics) {
         this.restaurante = restaurante;
+        this.manejadorGrafFrameActual = graphics;
         
         try {
             this.imagen = (ImageIO.read(new File("imgs/mesa.png")));
@@ -47,6 +48,8 @@ public class Mesa {
                 Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        this.pintarHam();
         
         this.numHamburguesas++;
 
@@ -69,14 +72,15 @@ public class Mesa {
 
     }
     
-    public void pintarHam(Graphics g){
+    public void pintarHam(){
+        
         try {
             this.dibujoHamburguesas.add(ImageIO.read(new File("imgs/ham.png")));
         } catch (IOException ex) {
             Logger.getLogger(Cocinero.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        g.drawImage(this.imagen, posX, posY + 100, null);
+        this.manejadorGrafFrameActual.drawImage(dibujoHamburguesas.get(0), 0, 0 , null);
     
     }
 
@@ -97,7 +101,7 @@ public class Mesa {
     }
 
     public void pintar(Graphics g) {
-        g.drawImage(this.imagen, posX, posY, null);
+        this.manejadorGrafFrameActual.drawImage(this.imagen, posX, posY, null);
     }
 
 }

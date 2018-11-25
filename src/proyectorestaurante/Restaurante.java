@@ -39,8 +39,9 @@ public class Restaurante extends JFrame {
 
     public Restaurante() {
 
-        this.createFrame();
+        
         this.addViewer();
+        this.createFrame();
 
         this.openRestaurante();
 
@@ -109,7 +110,7 @@ public class Restaurante extends JFrame {
     }
 
     private void addMesa() {
-        this.mesas.add(new Mesa(this));
+        this.mesas.add(new Mesa(this, this.viewer.getFrameActual().getGraphics()));
     }
 
     private void addControlPanel() {

@@ -21,6 +21,7 @@ public class Viewer extends Canvas implements Runnable {
     public Viewer(Restaurante restaurante) {
 
         this.restaurante = restaurante;
+        this.loadObjects();
         this.addObjFondo("imgs/valdosas.jpeg");
         this.addObjFrameActual();
     }
@@ -41,44 +42,15 @@ public class Viewer extends Canvas implements Runnable {
         }
     }
 
-    public void loadImageCocinero(Cocinero co) {
-        Graphics g = this.frameActual.getGraphics();
-        co.pintar(g);
-    }
-
-    public void loadImageCliente(Cliente cl) {
-        Graphics g = this.frameActual.getGraphics();
-        cl.pintar(g);
-    }
-
-    public void loadImageFondo() {
-        Graphics g = this.getGraphics();
-        g.drawImage(this.fondo, 0, 0, null);
-    }
-
-    public void loadImageMesa(Mesa m) {
-        Graphics g = this.frameActual.getGraphics();
-        m.pintar(g);
-    }
-
     public void loadObjects() {
         this.cocineros = this.restaurante.getCocineros();
         this.clientes = this.restaurante.getClientes();
-        this.mesas  = this.restaurante.getMesas();
+        this.mesas = this.restaurante.getMesas();
     }
 
     public void paintComponents() {
-        for (int i = 0; i < this.restaurante.getMesas().size(); i++) {
-            this.loadImageMesa(this.restaurante.getMesa(i));
-        }
 
-        for (int i = 0; i < this.restaurante.getCocineros().size(); i++) {
-            this.loadImageCocinero(this.restaurante.getCocinero(i));
-        }
-
-        for (int i = 0; i < this.restaurante.getClientes().size(); i++) {
-            this.loadImageCliente(this.restaurante.getCliente(i));
-        }
+        
     }
 
     @Override
@@ -87,6 +59,22 @@ public class Viewer extends Canvas implements Runnable {
 
     @Override
     public void run() {
+        while (true) {
+            try {
+                Thread.sleep(17);
+                updateFrame();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    private void updateFrame() {
+
+        this.getGraphics().drawImage(this.fondo, 0, 0, null);
+        this.restaurante.getMesa(0).pintar(this.frameActual.getGraphics());
+        this.getGraphics().drawImage(this.frameActual, 0, 0, null);
 
     }
 }
